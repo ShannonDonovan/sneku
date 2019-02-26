@@ -8,6 +8,22 @@ class Game{
     }
     //todo:
     findFood(){
+      
+			let foodx = request.body.board.food[0].x
+			let foody = request.body.board.food[0].y
+			
+			let locx = request.body.you.body[0].x
+			let locy = request.body.you.body[0].y
+			
+			if(locx < foodx){
+				data.move = 'right';
+			}else if(locx > foodx){
+				data.move = 'left';
+			}else if(locy < foody){
+				data.move = 'down';
+			}else if(locy > foody){
+				data.move = 'up';
+			}
     }
     
     /*
