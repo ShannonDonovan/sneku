@@ -12,6 +12,12 @@ class Coordinate {
   toString() {
   	return 'X: ' + this.x + ', Y: ' + this.y;
   }
+  subtract(other) {
+      return new Coordinate({
+          x: this.x - other.x,
+          y: this.y - other.y
+      })
+  }
 }
 
 module.exports = Coordinate;

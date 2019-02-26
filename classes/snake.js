@@ -14,6 +14,10 @@ class Snake{
             return coord.x === c.x && coord.y === c.y;
         });
     }
+    // Get the length of the snake
+    length() {
+        return this.body.length;
+    }
 }
 
 module.exports = Snake;
