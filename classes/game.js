@@ -5,30 +5,54 @@ class Game{
         this.turn = data.turn;
         this.board = new Board(data.board);
         this.me = new Snake(data.you);
+				this.test = data;
     }
     //todo:
     findFood(){
-			let foodx = request.body.board.food[0].x
-			let foody = request.body.board.food[0].y
+			let foodLength = Object.keys(this.test.board.food).length;
+			let foodArr = this.test.board.food;
 			
-			let locx = request.body.you.body[0].x
-			let locy = request.body.you.body[0].y
+			let closex = 0;
+			let closey = 0;
+			let foodDistanceSquare = 99999999999999;
 			
-			if(locx < foodx){
-				data.move = 'right';
-			}else if(locx > foodx){
-				data.move = 'left';
-			}else if(locy < foody){
-				data.move = 'down';
-			}else if(locy > foody){
-				data.move = 'up';
+			let locx = this.test.you.body[0].x
+			let locy = this.test.you.body[0].y
+			
+			for (let i = 0; i < foodLength; i++) {
+				let diffx = foodArr[i].x - locx;
+				let diffy = foodArr[i].y - locy;
+				
+				let temp = (Math.pow(diffx,2) + Math.pow(diffy,2));
+				if (temp < foodDistanceSquare){
+					foodDistanceSquare = temp;
+					closex = foodArr[i].x;
+					closey = foodArr[i].y;
+				}
+			} 
+			
+			
+			
+			if(locx < closex){
+				return 'right';
+			}else if(locx > closex){
+				return 'left';
+			}else if(locy < closey){
+				return 'down';
+			}else if(locy > closey){
+				return 'up';
 			}
+			
     }
 
     /* moves the snake in the given order, this snake is "safe"
     * it will not hunt for food, but it will not hit walls or itself.
      */
     safeMove(){
+				if(this.test.you.health < 50) {
+					return this.findFood()
+				}
+			
         if(this.board.searchUp(this.me.head)){
             return "up";
         } else if(this.board.searchDown(this.me.head)){
