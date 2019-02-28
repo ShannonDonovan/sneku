@@ -25,44 +25,30 @@ class Game{
 				data.move = 'up';
 			}
     }
-    
-    /*
-     * Return a move to turtle the snake around in a circle 
-     */
-    turtle() {
-        // Compare the coord of the head to the coord of the next segment to figure out how the snake just moved
-        const diff = this.me.head.subtract(this.me.body[1]);
-        // It should go down half its length, then turn around and go back
-        // So check that its done that
-        if (diff.x == 0) {
-            let i = 1;
-            // Fancy way to check how long the snake's gone without turning
-            while (i < this.me.length() && this.me.body[i - 1].subtract(this.me.body[i]).distanceTo(diff) == 0) {
-                i++;
-            }
-            if (i < this.me.length() / 2) {
-                // Continue going straight
-                if (diff.x == 1) {
-                    return "right";
-                } else if (diff.x == -1) {
-                    return "left";
-                } else if (diff.y == 1) {
-                    return "down";
-                } else {
-                    return "up";
-                }
-            }
-        }
-        if (diff.x == 1) {
-            return "up";
-        } else if (diff.x == -1) {
-            return "down";
-        } else if (diff.y == 1) {
-            return "right";
+
+    turtle2() {
+        let directions = ["down", "left", "up", "right"];
+        let lastMove = directions.indexOf(this.me.lastMove());
+        var prefNextMove = directions[(lastMove + 1) % 4];
+        if (this.board.searchDirection(this.me.head, prefNextMove)) {
+            return prefNextMove;
+        } else if (this.board.searchDirection(this.me.head, directions[lastMove])) {
+            return directions[lastMove];
         } else {
-            return "left";
+            if (this.board.searchDown(this.me.head) && this.me.lastMove()) {
+                return "down";
+            } else if (this.board.searchLeft(this.me.head)) {
+                return "left";
+            } else if (this.board.searchUp(this.me.head)) {
+                return "up";
+            } else if (this.board.searchRight(this.me.head)) {
+                return "right";
+            } else {
+                return "down";
+            }
         }
     }
+    
 
     /* moves the snake in the given order, this snake is "safe"
     * it will not hunt for food, but it will not hit walls or itself.
@@ -87,7 +73,7 @@ class Game{
     * health < whatever then get food, otherwise do safe move
      */
     getMove(){
-        return this.turtle();
+        return this.turtle2();
     }
 }
 module.exports = Game;

@@ -4,6 +4,7 @@ class Snake{
      this.health = data.health;
      this.body = data.body.map(x => new Coordinate(x));
      this.head = this.body[0];
+
     }
 
     /* this checks if there is a snake at a specific x,y coordinate
@@ -17,6 +18,20 @@ class Snake{
     // Get the length of the snake
     length() {
         return this.body.length;
+    }
+
+    lastMove() {
+        const diff = this.head.subtract(this.body[1]);
+        console.log("diff is" + diff);
+        if (diff.x === 1) {
+            return "right";
+        } else if (diff.x === -1) {
+            return "left";
+        } else if (diff.y === -1) {
+            return "up";
+        } else {
+            return "down";
+        }
     }
 }
 
