@@ -5,65 +5,61 @@ class Game{
         this.turn = data.turn;
         this.board = new Board(data.board);
         this.me = new Snake(data.you);
-				this.test = data;
     }
     //todo:
     findFood(){
-			let foodLength = Object.keys(this.test.board.food).length;
-			let foodArr = this.test.board.food;
+		let foodLength = this.board.food.length;
+		let foodArr = this.board.food;
+		
+		let closeFoodX = 0;
+		let closeFoodY = 0;
+		let foodDistanceSquare = 99999999999999;
+		
+		let headX = this.me.head.x;
+		let headY = this.me.head.y;
+		
+		foodArr.forEach(function(food){
+			let diffx = food.x - headX;
+			let diffy = food.y - headY;
 			
-			let closex = 0;
-			let closey = 0;
-			let foodDistanceSquare = 99999999999999;
-			
-			let locx = this.test.you.body[0].x
-			let locy = this.test.you.body[0].y
-			
-			for (let i = 0; i < foodLength; i++) {
-				let diffx = foodArr[i].x - locx;
-				let diffy = foodArr[i].y - locy;
-				
-				let temp = (Math.pow(diffx,2) + Math.pow(diffy,2));
-				if (temp < foodDistanceSquare){
-					foodDistanceSquare = temp;
-					closex = foodArr[i].x;
-					closey = foodArr[i].y;
-				}
-			} 
-			
-			
-			
-			if(locx < closex){
-				return 'right';
-			}else if(locx > closex){
-				return 'left';
-			}else if(locy < closey){
-				return 'down';
-			}else if(locy > closey){
-				return 'up';
+			let temp = (Math.pow(diffx,2) + Math.pow(diffy,2));
+			if (temp < foodDistanceSquare){
+				foodDistanceSquare = temp;
+				closeFoodX = food.x;
+				closeFoodY = food.y;
 			}
-			
+		}); 
+		
+		if(headX < closeFoodX){
+			return 'right';
+		}else if(headX > closeFoodX){
+			return 'left';
+		}else if(headY < closeFoodY){
+			return 'down';
+		}else if(headY > closeFoodY){
+			return 'up';
+		}
     }
 
     /* moves the snake in the given order, this snake is "safe"
     * it will not hunt for food, but it will not hit walls or itself.
      */
     safeMove(){
-				if(this.test.you.health < 50) {
-					return this.findFood()
-				}
-			
-        if(this.board.searchUp(this.me.head)){
-            return "up";
-        } else if(this.board.searchDown(this.me.head)){
-            return "down";
-        } else if(this.board.searchRight(this.me.head)){
-            return "right";
-        } else if(this.board.searchLeft(this.me.head)){
-            return "left";
-        } else {
-            return "up";
-        }
+		if(this.me.health < 50) {
+			return this.findFood();
+		}
+	
+		if(this.board.searchUp(this.me.head)){
+			return "up";
+		} else if(this.board.searchDown(this.me.head)){
+			return "down";
+		} else if(this.board.searchRight(this.me.head)){
+			return "right";
+		} else if(this.board.searchLeft(this.me.head)){
+			return "left";
+		} else {
+			return "up";
+		}
 
     }
 
