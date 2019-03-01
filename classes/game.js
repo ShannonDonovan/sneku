@@ -6,7 +6,13 @@ class Game{
         this.board = new Board(data.board);
         this.me = new Snake(data.you);
     }
-    //todo:
+    
+	/* this function makes the snake look for the closest piece of food and
+     * take the shortest path to that piece of food. If the path directly in
+     * front is blocked then it will attempt to go to the either side before
+	 * going in the opposite direction
+     */
+
     findFood(){
 		let foodLength = this.board.food.length;
 		let foodArr = this.board.food;
@@ -18,6 +24,7 @@ class Game{
 		let headX = this.me.head.x;
 		let headY = this.me.head.y;
 		
+		//finds closest food
 		foodArr.forEach(function(food){
 			let diffx = food.x - headX;
 			let diffy = food.y - headY;
@@ -30,8 +37,10 @@ class Game{
 			}
 		}); 
 		
-		if(headX < closeFoodX){//right
+		//heads in the direction of the food (x direction first)
+		if(headX < closeFoodX){//food to right
 			
+			//searches for safe direction
 			if(this.board.searchRight(this.me.head)){
 				return "right";
 			} else if(this.board.searchDown(this.me.head)){
@@ -42,7 +51,7 @@ class Game{
 				return "left";
 			}
 			
-		}else if(headX > closeFoodX){//left
+		}else if(headX > closeFoodX){//food to left
 		
 			if(this.board.searchLeft(this.me.head)){
 				return "left";
@@ -54,7 +63,7 @@ class Game{
 				return "right";
 			}
 			
-		}else if(headY < closeFoodY){//down
+		}else if(headY < closeFoodY){//food to down
 		
 			if(this.board.searchDown(this.me.head)){
 				return "down";
@@ -68,7 +77,7 @@ class Game{
 				return "up";
 			}
 			
-		}else if(headY > closeFoodY){//up
+		}else if(headY > closeFoodY){//food to up
 			
 			if(this.board.searchUp(this.me.head)){
 				return "up";
