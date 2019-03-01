@@ -180,16 +180,20 @@ class Game{
 		
 		if(this.board.searchUp(checkLoc)){
 			freeDirectionCount++;
-		} else if(this.board.searchDown(checkLoc)){
-			freeDirectionCount++;
-		} else if(this.board.searchRight(checkLoc)){
-			freeDirectionCount++;
-		} else if(this.board.searchLeft(checkLoc)){
-			freeDirectionCount++;
-		} else {
+		}
+		
+		if(this.board.searchDown(checkLoc)){
 			freeDirectionCount++;
 		}
 		
+		if(this.board.searchRight(checkLoc)){
+			freeDirectionCount++;
+		}
+		
+		if(this.board.searchLeft(checkLoc)){
+			freeDirectionCount++;
+		}
+		console.log(freeDirectionCount);
 		//if theres only one direction to go in, check the end of that direction
 		if(freeDirectionCount == 1){
 			while(this.searchDirection(direction, checkLoc)) {
@@ -201,18 +205,22 @@ class Game{
 			freeDirectionCount = 0;
 			if(this.board.searchUp(checkLoc)){
 				freeDirectionCount++;
-			} else if(this.board.searchDown(checkLoc)){
-				freeDirectionCount++;
-			} else if(this.board.searchRight(checkLoc)){
-				freeDirectionCount++;
-			} else if(this.board.searchLeft(checkLoc)){
-				freeDirectionCount++;
-			} else {
+			}
+			
+			if(this.board.searchDown(checkLoc)){
 				freeDirectionCount++;
 			}
 			
+			if(this.board.searchRight(checkLoc)){
+				freeDirectionCount++;
+			}
+			
+			if(this.board.searchLeft(checkLoc)){
+				freeDirectionCount++;
+			}
+			console.log(freeDirectionCount);
 			if(freeDirectionCount == 0){
-				console.log(HEREHERHEHRHERHEHRHERHERHREHHERHRE);
+				console.log("HEREHERHEHRHERHEHRHERHERHREHHERHRE");
 				return false
 			}
 		}
