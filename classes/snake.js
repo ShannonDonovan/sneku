@@ -26,7 +26,6 @@ class Snake{
      */
     lastMove() {
         const diff = this.head.subtract(this.body[1]);
-        console.log("diff is" + diff);
         if (diff.x === 1) {
             return "right";
         } else if (diff.x === -1) {
