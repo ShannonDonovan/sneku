@@ -100,27 +100,30 @@ class Game{
      */
 
     turtle2() {
+		if(this.me.health < 50) {
+			return this.findFood();
+		}
         let directions = ["down", "left", "up", "right"];
         let lastMove = directions.indexOf(this.me.lastMove());
         var prefNextMove = directions[(lastMove + 1) % 4];
 
         //check the next preferred move
-        if (this.board.searchDirection(this.me.head, prefNextMove)) {
+        if (this.board.searchDirection(this.me.head, prefNextMove) && this.safeDirection(prefNextMove)) {
             return prefNextMove;
 
         //if the preferred move isn't available check the last direction
-        } else if (this.board.searchDirection(this.me.head, directions[lastMove])) {
+        } else if (this.board.searchDirection(this.me.head, directions[lastMove]) && this.safeDirection(directions[lastMove])) {
             return directions[lastMove];
 
         //if neither the preferred move nor the last move is available go any availble direction
         } else {
-            if (this.board.searchDown(this.me.head) && this.me.lastMove()) {
+            if (this.board.searchDown(this.me.head) && this.me.lastMove() && this.safeDirection("down")) {
                 return "down";
-            } else if (this.board.searchLeft(this.me.head)) {
+            } else if (this.board.searchLeft(this.me.head) && this.safeDirection("left")) {
                 return "left";
-            } else if (this.board.searchUp(this.me.head)) {
+            } else if (this.board.searchUp(this.me.head) && this.safeDirection("up")) {
                 return "up";
-            } else if (this.board.searchRight(this.me.head)) {
+            } else if (this.board.searchRight(this.me.head) && this.safeDirection("right")) {
                 return "right";
             } else {
                 return "down";
@@ -150,6 +153,84 @@ class Game{
 		}
 
     }
+	
+	safeDirection(direction){
+		let iterateX = 0;
+		let iterateY = 0;
+		
+		if(direction == "down") {
+			iterateY = 1;
+		}else if(direction == "left") {
+			iterateX = -1;
+		}else if(direction == "up") {
+			iterateY = -1;
+		}else if(direction == "right") {
+			iterateY = 1;
+		}
+		
+		let checkX = this.me.head.x + iterateX;
+		let checkY = this.me.head.y + iterateY;
+		
+		const checkLoc = {
+			x: checkX,
+			y: checkY
+		}
+		
+		let freeDirectionCount = 0;
+		
+		if(this.board.searchUp(checkLoc)){
+			freeDirectionCount++;
+		} else if(this.board.searchDown(checkLoc)){
+			freeDirectionCount++;
+		} else if(this.board.searchRight(checkLoc)){
+			freeDirectionCount++;
+		} else if(this.board.searchLeft(checkLoc)){
+			freeDirectionCount++;
+		} else {
+			freeDirectionCount++;
+		}
+		
+		//if theres only one direction to go in, check the end of that direction
+		if(freeDirectionCount == 1){
+			while(this.searchDirection(direction, checkLoc)) {
+				checkLoc.x += iterateX;
+				checkLoc.y += iterateY;
+			}
+			
+			//if theres no free directions at the end of our route don't go there
+			freeDirectionCount = 0;
+			if(this.board.searchUp(checkLoc)){
+				freeDirectionCount++;
+			} else if(this.board.searchDown(checkLoc)){
+				freeDirectionCount++;
+			} else if(this.board.searchRight(checkLoc)){
+				freeDirectionCount++;
+			} else if(this.board.searchLeft(checkLoc)){
+				freeDirectionCount++;
+			} else {
+				freeDirectionCount++;
+			}
+			
+			if(freeDirectionCount == 0){
+				console.log(HEREHERHEHRHERHEHRHERHERHREHHERHRE);
+				return false
+			}
+		}
+		return true;
+    }
+	
+	//searches a direction for you
+	searchDirection(direction, loc) {
+		if(direction == "down") {
+			return this.board.searchDown(loc);
+		}else if(direction == "left") {
+			return this.board.searchLeft(loc);
+		}else if(direction == "up") {
+			return this.board.searchUp(loc);
+		}else if(direction == "right") {
+			return this.board.searchRight(loc);
+		}
+	}
 
     /* this is the order in which our snake will do things, for example if we want it
     * to do safeMove until it needs food we need to add a case for that like if
