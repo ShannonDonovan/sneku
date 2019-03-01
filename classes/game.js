@@ -25,15 +25,25 @@ class Game{
 				data.move = 'up';
 			}
     }
+    /* this function creates a clockwise "turtle" it takes the previous move and looks what
+     * the next move would be, and if that move is available it does it. If it's not
+     * available it tries the pervious move, and if not iterates to any posible move from the list
+     */
 
     turtle2() {
         let directions = ["down", "left", "up", "right"];
         let lastMove = directions.indexOf(this.me.lastMove());
         var prefNextMove = directions[(lastMove + 1) % 4];
+
+        //check the next preferred move
         if (this.board.searchDirection(this.me.head, prefNextMove)) {
             return prefNextMove;
+
+        //if the preferred move isn't available check the last direction
         } else if (this.board.searchDirection(this.me.head, directions[lastMove])) {
             return directions[lastMove];
+
+        //if neither the preferred move nor the last move is available go any availble direction
         } else {
             if (this.board.searchDown(this.me.head) && this.me.lastMove()) {
                 return "down";

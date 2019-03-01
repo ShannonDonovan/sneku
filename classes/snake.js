@@ -20,6 +20,10 @@ class Snake{
         return this.body.length;
     }
 
+
+    /* checks the last move using the position where the head
+     * would have just been and returns a direction string
+     */
     lastMove() {
         const diff = this.head.subtract(this.body[1]);
         console.log("diff is" + diff);
