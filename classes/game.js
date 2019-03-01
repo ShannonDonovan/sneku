@@ -30,15 +30,60 @@ class Game{
 			}
 		}); 
 		
-		if(headX < closeFoodX){
-			return 'right';
-		}else if(headX > closeFoodX){
-			return 'left';
-		}else if(headY < closeFoodY){
-			return 'down';
-		}else if(headY > closeFoodY){
-			return 'up';
+		if(headX < closeFoodX){//right
+			
+			if(this.board.searchRight(this.me.head)){
+				return "right";
+			} else if(this.board.searchDown(this.me.head)){
+				return "down";
+			} else if(this.board.searchUp(this.me.head)){
+				return "up";
+			} else if(this.board.searchLeft(this.me.head)){
+				return "left";
+			}
+			
+		}else if(headX > closeFoodX){//left
+		
+			if(this.board.searchLeft(this.me.head)){
+				return "left";
+			} else if(this.board.searchDown(this.me.head)){
+				return "down";
+			} else if(this.board.searchUp(this.me.head)){
+				return "up";
+			} else if(this.board.searchRight(this.me.head)){
+				return "right";
+			}
+			
+		}else if(headY < closeFoodY){//down
+		
+			if(this.board.searchDown(this.me.head)){
+				return "down";
+			} else if(this.board.searchRight(this.me.head)){
+				return "right";
+			} else if(this.board.searchLeft(this.me.head)){
+				return "left";
+			} else if(this.board.searchUp(this.me.head)){
+				return "up";
+			} else {
+				return "up";
+			}
+			
+		}else if(headY > closeFoodY){//up
+			
+			if(this.board.searchUp(this.me.head)){
+				return "up";
+			} else if(this.board.searchRight(this.me.head)){
+				return "right";
+			} else if(this.board.searchLeft(this.me.head)){
+				return "left";
+			} else if(this.board.searchDown(this.me.head)){
+				return "down";
+			}
 		}
+		
+		return "up";
+		
+		
     }
 
     /* moves the snake in the given order, this snake is "safe"
