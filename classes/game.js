@@ -101,7 +101,6 @@ class Game{
 
     turtle2() {
 		if(this.me.health < 50) {
-			console.log("going for food");
 			return this.findFood();
 		}
         let directions = ["down", "left", "up", "right"];
@@ -112,36 +111,29 @@ class Game{
 		
         //check the next preferred move
         if (this.board.searchDirection(this.me.head, prefNextMove) && this.safeDirection(prefNextMove)) {
-			console.log("going pref");
             return prefNextMove;
 
         //if the preferred move isn't available check the last direction
         } else if (this.board.searchDirection(this.me.head, directions[lastMove]) && this.safeDirection(directions[lastMove])) {
-            console.log("going last");
 			return directions[lastMove];
 
         //if neither the preferred move nor the last move is available go any available direction
         } else {
             if (this.board.searchDown(this.me.head) && this.me.lastMove() && this.safeDirection("down")) {
-				console.log("going down with result" + this.safeDirection("down"));
                 return "down";
 				
             } else if (this.board.searchLeft(this.me.head) && this.safeDirection("left")) {
-                console.log("going left with result" + this.safeDirection("left"));
 				return "left";
 				
             } else if (this.board.searchUp(this.me.head) && this.safeDirection("up")) {
-                console.log("going up with result" + this.safeDirection("up"));
 				return "up";
 				
             } else if (this.board.searchRight(this.me.head) && this.safeDirection("right")) {
-                console.log("going right with result" + this.safeDirection("right"));
 				return "right";
 				
             } else {
 				
 				//last check in case an available spot is a tail that will move
-				console.log("tailCheck");
 				if(this.tailCheck(this.me.head, "up")){
 					return "up";
 				} else if(this.tailCheck(this.me.head, "down")){
@@ -154,7 +146,6 @@ class Game{
 				
 				//just move anywhere that is directly
 				//safe to stay alive a bit longer
-				console.log("staying alive");
 				if(this.board.searchUp(this.me.head)){
 					return "up";
 				} else if(this.board.searchDown(this.me.head)){
@@ -166,7 +157,6 @@ class Game{
 				}
 				
 				//if we get here, we're likely dead
-				console.log("DEFAULT");
                 return "down";
             }
         }
@@ -188,10 +178,7 @@ class Game{
 			changeInX = 1;
 		}
 		
-		
-		
 		if((head.x + changeInX) == this.me.tail.x && (head.y + changeInY) == this.me.tail.y) {
-			console.log("Tail in this spot");
 			return true;
 		}
 		return false;
@@ -226,7 +213,6 @@ class Game{
 	 * If the empty spaces around is 0 then that location will trap the snake and we shouldn't go there.
      */
 	safeDirection(direction){
-		console.log("At position (" + this.me.head.x +","+ this.me.head.y + ") and looking " + direction);
 		let changeInX = 0;
 		let changeInY = 0;
 		
@@ -268,7 +254,6 @@ class Game{
 		if(this.board.searchLeft(checkLoc) || this.tailCheck(checkLoc, "left")){
 			freeDirectionCount++;
 		}
-		console.log("direction count at (" + checkLoc.x +","+ checkLoc.y + ") is: " + freeDirectionCount);
 		
 		//if theres only one direction to go in, keep going until you can't anymore. Then check around you
 		if(freeDirectionCount == 1 || freeDirectionCount == 0 ){
@@ -282,45 +267,32 @@ class Game{
 			if(this.board.searchUp(checkLoc) || this.tailCheck(checkLoc, "up")){
 				if(direction != "down"){
 					freeDirectionCount++;
-					console.log("Up available");
 				}
 			}
 			
 			if(this.board.searchDown(checkLoc) || this.tailCheck(checkLoc, "down")){
 				if(direction != "up"){
 				freeDirectionCount++;
-				console.log("Down available");
 				}
 			}
 			
 			if(this.board.searchRight(checkLoc) || this.tailCheck(checkLoc, "right")){
 				if(direction != "left"){
 					freeDirectionCount++;
-					console.log("Right available");
 				}
 			}
 			
 			if(this.board.searchLeft(checkLoc) || this.tailCheck(checkLoc, "left")){
 				if(direction != "right"){
 					freeDirectionCount++;
-					console.log("Left available")
 				}
 			}
 			
-			console.log(this.tailCheck(checkLoc, "up"));
-			console.log(this.tailCheck(checkLoc, "down"));
-			console.log(this.tailCheck(checkLoc, "right"));
-			console.log(this.tailCheck(checkLoc, "left"));
-			
-			console.log("direction count at end of route (" + checkLoc.x +","+ checkLoc.y + ") is: " + freeDirectionCount);
-			
 			//if theres no free directions at the end of our route don't go there
 			if(freeDirectionCount == 0){
-				console.log("FALSE");
 				return false
 			}
 		}
-		console.log("returning true count is: " + freeDirectionCount)
 		return true;
     }
 	
