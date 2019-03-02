@@ -14,6 +14,7 @@ class Game{
      */
 
     findFood(){
+        console.log("Finding food");
 		let foodLength = this.board.food.length;
 		let foodArr = this.board.food;
 		
@@ -36,68 +37,28 @@ class Game{
 				closeFoodY = food.y;
 			}
 		}); 
-        let needed_directions = []
-		
 		//heads in the direction of the food (x direction first)
 		if(headX < closeFoodX){//food to right
-
-            if (this.safeDirection("right", this.head)) {
+            if (this.safeDirection("right", this.head) == 2) {
                 return "right";
-            } else {
-                return this.safeMove();
             }
-			
-			//searches for safe direction
-			if(this.board.searchRight(this.me.head) == 2 && this.safeDirection("right")){
-				return "right";
-			} else if(this.board.searchDown(this.me.head) == 2 && this.safeDirection("down")){
-				return "down";
-			} else if(this.board.searchUp(this.me.head) == 2 && this.safeDirection("up")){
-				return "up";
-			} else if(this.board.searchLeft(this.me.head) == 2 && this.safeDirection("left")){
-				return "left";
-			}
-			
 		}else if(headX > closeFoodX){//food to left
-		
-			if(this.board.searchLeft(this.me.head) == 2 && this.safeDirection("left")){
-				return "left";
-			} else if(this.board.searchDown(this.me.head) == 2 && this.safeDirection("down")){
-				return "down";
-			} else if(this.board.searchUp(this.me.head) == 2 && this.safeDirection("up")){
-				return "up";
-			} else if(this.board.searchRight(this.me.head) == 2 && this.safeDirection("right")){
-				return "right";
-			}
-			
-		}else if(headY < closeFoodY){//food to down
-		
-			if(this.board.searchDown(this.me.head) == 2 && this.safeDirection("down")){
-				return "down";
-			} else if(this.board.searchRight(this.me.head) == 2 && this.safeDirection("right")){
-				return "right";
-			} else if(this.board.searchLeft(this.me.head) == 2 && this.safeDirection("left")){
-				return "left";
-			} else if(this.board.searchUp(this.me.head) == 2 && this.safeDirection("up")){
-				return "up";
-			} else {
-				return "up";
-			}
-			
+            if (this.safeDirection("left", this.head) == 2) {
+                return "left";
+            }
+		}
+        if(headY < closeFoodY){//food to down
+            if (this.safeDirection("down", this.head) == 2) {
+                return "down";
+            }
 		}else if(headY > closeFoodY){//food to up
-			
-			if(this.board.searchUp(this.me.head) == 2 && this.safeDirection("up")){
-				return "up";
-			} else if(this.board.searchRight(this.me.head) == 2 && this.safeDirection("right")){
-				return "right";
-			} else if(this.board.searchLeft(this.me.head) == 2 && this.safeDirection("left")){
-				return "left";
-			} else if(this.board.searchDown(this.me.head) == 2 && this.safeDirection("down")){
-				return "down";
-			}
+            if (this.safeDirection("up", this.head) == 2) {
+                console.log("ASDF");
+                return "up";
+            }
 		} else {
-            console.log("ASDF");
-            return this.turtle2();
+            console.log("Safe move");
+            return this.safeMove();
         }
     }
     /* this function creates a clockwise "turtle" it takes the previous move and looks what
@@ -194,13 +155,13 @@ class Game{
     safeMove(){
         const ALL_DIRECTIONS = ["up", "left", "right", "down"];
         let safe = ALL_DIRECTIONS.filter(d => {
-            return this.board.safeDirection(d, this.me.head) == 2;
+            return this.safeDirection(d, this.me.head) == 2;
         });
         if (safe.length > 0) {
             return safe[0];
         }
-        let kindaSave = ALL_DIRECTIONS.filter(d => {
-            return this.board.safeDirection(d, this.me.head) == 1;
+        let kindaSafe = ALL_DIRECTIONS.filter(d => {
+            return this.safeDirection(d, this.me.head) == 1;
         });
         if (kindaSafe.length > 0) {
             return kindaSafe[0];
