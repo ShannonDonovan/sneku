@@ -4,7 +4,7 @@ class Game{
     constructor(data){
         this.turn = data.turn;
         this.me = new Snake(data.you);
-        this.board = new Board(data.board, this.me);
+		this.board = new Board(data.board, this.me);
     }
     
 	/* this function makes the snake look for the closest piece of food and
@@ -19,7 +19,7 @@ class Game{
 		
 		let closeFoodX = 0;
 		let closeFoodY = 0;
-		let foodDistanceSquare = 99999999999999;
+		let foodDistanceSquare = 99999999;
 		
 		let headX = this.me.head.x;
 		let headY = this.me.head.y;
@@ -41,37 +41,37 @@ class Game{
 		if(headX < closeFoodX){//food to right
 			
 			//searches for safe direction
-			if(this.board.searchRight(this.me.head)){
+			if(this.board.searchRight(this.me.head) && this.safeDirection("right")){
 				return "right";
-			} else if(this.board.searchDown(this.me.head)){
+			} else if(this.board.searchDown(this.me.head) && this.safeDirection("down")){
 				return "down";
-			} else if(this.board.searchUp(this.me.head)){
+			} else if(this.board.searchUp(this.me.head) && this.safeDirection("up")){
 				return "up";
-			} else if(this.board.searchLeft(this.me.head)){
+			} else if(this.board.searchLeft(this.me.head) && this.safeDirection("left")){
 				return "left";
 			}
 			
 		}else if(headX > closeFoodX){//food to left
 		
-			if(this.board.searchLeft(this.me.head)){
+			if(this.board.searchLeft(this.me.head) && this.safeDirection("left")){
 				return "left";
-			} else if(this.board.searchDown(this.me.head)){
+			} else if(this.board.searchDown(this.me.head) && this.safeDirection("down")){
 				return "down";
-			} else if(this.board.searchUp(this.me.head)){
+			} else if(this.board.searchUp(this.me.head) && this.safeDirection("up")){
 				return "up";
-			} else if(this.board.searchRight(this.me.head)){
+			} else if(this.board.searchRight(this.me.head) && this.safeDirection("right")){
 				return "right";
 			}
 			
 		}else if(headY < closeFoodY){//food to down
 		
-			if(this.board.searchDown(this.me.head)){
+			 if(this.board.searchDown(this.me.head) && this.safeDirection("down")){
 				return "down";
-			} else if(this.board.searchRight(this.me.head)){
+			} else if(this.board.searchRight(this.me.head) && this.safeDirection("right")){
 				return "right";
-			} else if(this.board.searchLeft(this.me.head)){
+			} else if(this.board.searchLeft(this.me.head) && this.safeDirection("left")){
 				return "left";
-			} else if(this.board.searchUp(this.me.head)){
+			} else if(this.board.searchUp(this.me.head) && this.safeDirection("up")){
 				return "up";
 			} else {
 				return "up";
@@ -79,13 +79,13 @@ class Game{
 			
 		}else if(headY > closeFoodY){//food to up
 			
-			if(this.board.searchUp(this.me.head)){
+			if(this.board.searchUp(this.me.head) && this.safeDirection("up")){
 				return "up";
-			} else if(this.board.searchRight(this.me.head)){
+			} else if(this.board.searchRight(this.me.head) && this.safeDirection("right")){
 				return "right";
-			} else if(this.board.searchLeft(this.me.head)){
+			} else if(this.board.searchLeft(this.me.head) && this.safeDirection("left")){
 				return "left";
-			} else if(this.board.searchDown(this.me.head)){
+			} else if(this.board.searchDown(this.me.head) && this.safeDirection("down")){
 				return "down";
 			}
 		}

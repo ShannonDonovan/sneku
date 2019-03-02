@@ -30,8 +30,8 @@ app.post('/start', (request, response) => {
   // Response data
   const data = {
     color: '#0f52ba',
-		headType: 'bendr',
-		tailType: 'hook'
+	headType: 'bendr',
+	tailType: 'hook'
   }
 
   return response.json(data);
@@ -39,15 +39,12 @@ app.post('/start', (request, response) => {
 
 // Handle POST request to '/move'
 app.post('/move', (request, response) => {
-	console.log();
 	let game = new Game(request.body);
 	let move = game.getMove();
-	console.log("WE ARE GOING " + move);
 	return response.json({move: move});
 });
 
 app.post('/end', (request, response) => {
-	console.log(request.body.turn);
   return response.json({});
 });
 
