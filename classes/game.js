@@ -3,8 +3,8 @@ let Snake = require("./snake.js");
 class Game{
     constructor(data){
         this.turn = data.turn;
-        this.board = new Board(data.board);
         this.me = new Snake(data.you);
+        this.board = new Board(data.board, this.me);
     }
     
 	/* this function makes the snake look for the closest piece of food and
