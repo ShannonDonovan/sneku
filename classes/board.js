@@ -29,7 +29,7 @@ class Board {
             return 0;
         else if (snakeNearLocation || besideWallX || besideWallY)
             return 1;
-        return 2
+        return 2;
     }
 
 

@@ -1,5 +1,6 @@
 let Board = require("./board.js");
 let Snake = require("./snake.js");
+let Coordinate = require("./coordinate.js");
 class Game{
     constructor(data){
         this.turn = data.turn;
@@ -37,29 +38,33 @@ class Game{
 				closeFoodY = food.y;
 			}
 		}); 
+        console.log(this.me.head.subtract(new Coordinate(closeFoodX, closeFoodY)));
 		//heads in the direction of the food (x direction first)
 		if(headX < closeFoodX){//food to right
-            if (this.safeDirection("right", this.head) == 2) {
+            console.log("right");
+            if (this.searchDirection("right", this.me.head) == 2) {
                 return "right";
             }
 		}else if(headX > closeFoodX){//food to left
-            if (this.safeDirection("left", this.head) == 2) {
+            console.log("left")
+            if (this.searchDirection("left", this.me.head) == 2) {
                 return "left";
             }
 		}
         if(headY < closeFoodY){//food to down
-            if (this.safeDirection("down", this.head) == 2) {
+            console.log("down")
+            if (this.searchDirection("down", this.me.head) == 2) {
                 return "down";
             }
 		}else if(headY > closeFoodY){//food to up
-            if (this.safeDirection("up", this.head) == 2) {
+            console.log("up")
+            if (this.searchDirection("up", this.me.head) == 2) {
                 console.log("ASDF");
                 return "up";
             }
-		} else {
-            console.log("Safe move");
-            return this.safeMove();
-        }
+		}
+        console.log("Safe move");
+        return this.safeMove();
     }
     /* this function creates a clockwise "turtle" it takes the previous move and looks what
      * the next move would be, and if that move is available it does it. If it's not
@@ -155,17 +160,19 @@ class Game{
     safeMove(){
         const ALL_DIRECTIONS = ["up", "left", "right", "down"];
         let safe = ALL_DIRECTIONS.filter(d => {
-            return this.safeDirection(d, this.me.head) == 2;
+            return this.searchDirection(d, this.me.head) == 2;
         });
         if (safe.length > 0) {
             return safe[0];
         }
+        console.log("No completely safe moves");
         let kindaSafe = ALL_DIRECTIONS.filter(d => {
-            return this.safeDirection(d, this.me.head) == 1;
+            return this.searchDirection(d, this.me.head) == 1;
         });
         if (kindaSafe.length > 0) {
             return kindaSafe[0];
         }
+        console.log("We are dead no matter what")
         return "fuck you";
     }
 	
