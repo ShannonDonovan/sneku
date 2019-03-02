@@ -19,7 +19,7 @@ class Game{
 		
 		let closeFoodX = 0;
 		let closeFoodY = 0;
-		let foodDistanceSquare = 99999999999999;
+		let foodDistanceSquare = -1;
 		
 		let headX = this.me.head.x;
 		let headY = this.me.head.y;
@@ -30,7 +30,7 @@ class Game{
 			let diffy = food.y - headY;
 			
 			let temp = (Math.pow(diffx,2) + Math.pow(diffy,2));
-			if (temp < foodDistanceSquare){
+			if (temp < foodDistanceSquare || foodDistanceSquare < 0){
 				foodDistanceSquare = temp;
 				closeFoodX = food.x;
 				closeFoodY = food.y;
