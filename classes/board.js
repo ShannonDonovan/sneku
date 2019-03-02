@@ -23,7 +23,11 @@ class Board {
         }.bind(this));
         let checkHeight = this.height > coord.y && coord.y >= 0;
         let checkWidth = this.width > coord.x && coord.x >= 0;
-        return !snakeAtLocation && !snakeNearLocation && checkHeight && checkWidth;
+        if (snakeAtLocation || !checkWidth || !checkHeight)
+            return 0;
+        else if (snakeNearLocation)
+            return 1;
+        return 2
     }
 
 

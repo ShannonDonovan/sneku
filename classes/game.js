@@ -65,7 +65,7 @@ class Game{
 			
 		}else if(headY < closeFoodY){//food to down
 		
-			 if(this.board.searchDown(this.me.head) && this.safeDirection("down")){
+			if(this.board.searchDown(this.me.head) && this.safeDirection("down")){
 				return "down";
 			} else if(this.board.searchRight(this.me.head) && this.safeDirection("right")){
 				return "right";
@@ -110,25 +110,25 @@ class Game{
 		
 		
         //check the next preferred move
-        if (this.board.searchDirection(this.me.head, prefNextMove) && this.safeDirection(prefNextMove)) {
+        if (this.board.searchDirection(this.me.head, prefNextMove) == 2 && this.safeDirection(prefNextMove)) {
             return prefNextMove;
 
         //if the preferred move isn't available check the last direction
-        } else if (this.board.searchDirection(this.me.head, directions[lastMove]) && this.safeDirection(directions[lastMove])) {
+        } else if (this.board.searchDirection(this.me.head, directions[lastMove]) == 2 && this.safeDirection(directions[lastMove])) {
 			return directions[lastMove];
 
         //if neither the preferred move nor the last move is available go any available direction
         } else {
-            if (this.board.searchDown(this.me.head) && this.me.lastMove() && this.safeDirection("down")) {
+            if (this.board.searchDown(this.me.head) == 2&& this.me.lastMove() && this.safeDirection("down")) {
                 return "down";
 				
-            } else if (this.board.searchLeft(this.me.head) && this.safeDirection("left")) {
+            } else if (this.board.searchLeft(this.me.head) == 2 && this.safeDirection("left")) {
 				return "left";
 				
-            } else if (this.board.searchUp(this.me.head) && this.safeDirection("up")) {
+            } else if (this.board.searchUp(this.me.head) == 2 && this.safeDirection("up")) {
 				return "up";
 				
-            } else if (this.board.searchRight(this.me.head) && this.safeDirection("right")) {
+            } else if (this.board.searchRight(this.me.head) == 2 && this.safeDirection("right")) {
 				return "right";
 				
             } else {
@@ -146,13 +146,13 @@ class Game{
 				
 				//just move anywhere that is directly
 				//safe to stay alive a bit longer
-				if(this.board.searchUp(this.me.head)){
+				if(this.board.searchUp(this.me.head) == 1){
 					return "up";
-				} else if(this.board.searchDown(this.me.head)){
+				} else if(this.board.searchDown(this.me.head) == 1){
 					return "down";
-				} else if(this.board.searchRight(this.me.head)){
+				} else if(this.board.searchRight(this.me.head) == 1){
 					return "right";
-				} else if(this.board.searchLeft(this.me.head)){
+				} else if(this.board.searchLeft(this.me.head) == 1){
 					return "left";
 				}
 				
