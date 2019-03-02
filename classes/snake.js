@@ -4,7 +4,7 @@ class Snake{
      this.health = data.health;
      this.body = data.body.map(x => new Coordinate(x));
      this.head = this.body[0];
-
+	 this.tail = this.body[this.body.length-1];
     }
 
     /* this checks if there is a snake at a specific x,y coordinate

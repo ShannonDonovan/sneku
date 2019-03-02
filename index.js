@@ -39,12 +39,15 @@ app.post('/start', (request, response) => {
 
 // Handle POST request to '/move'
 app.post('/move', (request, response) => {
+	console.log();
 	let game = new Game(request.body);
 	let move = game.getMove();
+	console.log("WE ARE GOING " + move);
 	return response.json({move: move});
 });
 
 app.post('/end', (request, response) => {
+	console.log(request.body.turn);
   return response.json({});
 });
 
