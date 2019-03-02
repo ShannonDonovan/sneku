@@ -10,7 +10,7 @@ class Board {
     }
     /* checks if the given coordinate is either a wall or if there is a snake
     * returns true if it safe, false if it is not.*/
-    coordisSafe(coord) {
+    coordIsSafe(coord) {
         let snakeAtLocation = this.snakes.some(function (s) {
             return s.doesOccupyLocation(coord);
         });
@@ -25,22 +25,22 @@ class Board {
          */
     searchRight(coord) {
         let rightCoord = new Coordinate({x: coord.x + 1, y: coord.y});
-        return this.coordisSafe(rightCoord);
+        return this.coordIsSafe(rightCoord);
     }
 
     searchLeft(coord) {
         let leftCoord = new Coordinate({ x: coord.x - 1, y: coord.y });
-        return this.coordisSafe(leftCoord);
+        return this.coordIsSafe(leftCoord);
     }
 
     searchUp (coord) {
         let upCoord = new Coordinate({ x: coord.x, y: coord.y - 1 });
-        return this.coordisSafe(upCoord);
+        return this.coordIsSafe(upCoord);
     }
 
     searchDown(coord) {
         let downCoord = new Coordinate({ x: coord.x, y: coord.y + 1 });
-        return this.coordisSafe(downCoord);
+        return this.coordIsSafe(downCoord);
     }
 
     searchDirection(coord, direction) {
