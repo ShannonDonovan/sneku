@@ -88,7 +88,10 @@ class Game{
 			} else if(this.board.searchDown(this.me.head) == 2 && this.safeDirection("down")){
 				return "down";
 			}
-		}
+		} else {
+            return this.turtle2();
+        }
+        
 		
 		return "up";
 		
@@ -100,12 +103,7 @@ class Game{
      */
 
     turtle2() {
-        if (this.me.body.length < 7)
-            return this.findFood();
-		if(this.me.health < 80) {
-			return this.findFood();
-		}
-        let directions = ["down", "left", "up", "right"];
+                let directions = ["down", "left", "up", "right"];
         let lastMove = directions.indexOf(this.me.lastMove());
         var prefNextMove = directions[(lastMove + 1) % 4];
 		
@@ -316,6 +314,11 @@ class Game{
     * health < whatever then get food, otherwise do safe move
      */
     getMove(){
+        if (this.me.body.length < 7 && this.board.food.length > 2)
+            return this.findFood();
+		if(this.me.health < 80) {
+			return this.findFood();
+		}
         return this.turtle2();
     }
 }

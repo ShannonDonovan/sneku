@@ -21,11 +21,13 @@ class Board {
                 return false;
             return s.head.subtract(coord).length() <= 1 && s.body.length >= this.me.body.length;
         }.bind(this));
+        let besideWallX = coord.x == 1 || coord.x == this.width - 1;
+        let besideWallY = coord.y == 1 || coord.y == this.height - 1;
         let checkHeight = this.height > coord.y && coord.y >= 0;
         let checkWidth = this.width > coord.x && coord.x >= 0;
         if (snakeAtLocation || !checkWidth || !checkHeight)
             return 0;
-        else if (snakeNearLocation)
+        else if (snakeNearLocation || besideWallX || besideWallY)
             return 1;
         return 2
     }
