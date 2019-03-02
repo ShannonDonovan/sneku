@@ -36,9 +36,16 @@ class Game{
 				closeFoodY = food.y;
 			}
 		}); 
+        let needed_directions = []
 		
 		//heads in the direction of the food (x direction first)
 		if(headX < closeFoodX){//food to right
+
+            if (this.safeDirection("right", this.head)) {
+                return "right";
+            } else {
+                return this.safeMove();
+            }
 			
 			//searches for safe direction
 			if(this.board.searchRight(this.me.head) == 2 && this.safeDirection("right")){
@@ -89,13 +96,9 @@ class Game{
 				return "down";
 			}
 		} else {
+            console.log("ASDF");
             return this.turtle2();
         }
-        
-		
-		return "up";
-		
-		
     }
     /* this function creates a clockwise "turtle" it takes the previous move and looks what
      * the next move would be, and if that move is available it does it. If it's not
@@ -103,7 +106,7 @@ class Game{
      */
 
     turtle2() {
-                let directions = ["down", "left", "up", "right"];
+        let directions = ["down", "left", "up", "right"];
         let lastMove = directions.indexOf(this.me.lastMove());
         var prefNextMove = directions[(lastMove + 1) % 4];
 		
@@ -119,7 +122,7 @@ class Game{
 
         //if neither the preferred move nor the last move is available go any available direction
         } else {
-            if (this.board.searchDown(this.me.head) == 2&& this.me.lastMove() && this.safeDirection("down")) {
+            if (this.board.searchDown(this.me.head) == 2 && this.me.lastMove() && this.safeDirection("down")) {
                 return "down";
 				
             } else if (this.board.searchLeft(this.me.head) == 2 && this.safeDirection("left")) {
@@ -189,22 +192,20 @@ class Game{
     * it will not hunt for food, but it will not hit walls or itself.
      */
     safeMove(){
-		if(this.me.health < 50) {
-			return this.findFood();
-		}
-	
-		if(this.board.searchUp(this.me.head)){
-			return "up";
-		} else if(this.board.searchDown(this.me.head)){
-			return "down";
-		} else if(this.board.searchRight(this.me.head)){
-			return "right";
-		} else if(this.board.searchLeft(this.me.head)){
-			return "left";
-		} else {
-			return "up";
-		}
-
+        const ALL_DIRECTIONS = ["up", "left", "right", "down"];
+        let safe = ALL_DIRECTIONS.filter(d => {
+            return this.board.safeDirection(d, this.me.head) == 2;
+        });
+        if (safe.length > 0) {
+            return safe[0];
+        }
+        let kindaSave = ALL_DIRECTIONS.filter(d => {
+            return this.board.safeDirection(d, this.me.head) == 1;
+        });
+        if (kindaSafe.length > 0) {
+            return kindaSafe[0];
+        }
+        return "fuck you";
     }
 	
 	/* This function checks if the location the snake is trying to move into has empty spaces
