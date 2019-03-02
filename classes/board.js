@@ -17,8 +17,9 @@ class Board {
         });
         let snakeNearLocation = this.snakes.some(function (s) {
             // If it's our snake, we don't have to worry about head on collisions
-            if (s.head.subtract(this.me.head).length() == 0)
+            if (s.head.subtract(this.me.head).length() == 0) {
                 return false;
+            }
             return s.head.subtract(coord).length() <= 1 && s.body.length >= this.me.body.length;
         }.bind(this));
         let checkHeight = this.height > coord.y && coord.y >= 0;
