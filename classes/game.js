@@ -126,6 +126,7 @@ class Game{
             } else if (this.board.searchRight(this.me.head) && this.safeDirection("right")) {
                 return "right";
             } else {
+				console.log("DEFAULT");
                 return "down";
             }
         }
@@ -155,6 +156,7 @@ class Game{
     }
 	
 	safeDirection(direction){
+		console.log("At position (" + this.me.head.x +","+ this.me.head.y + ") and looking " + direction);
 		let iterateX = 0;
 		let iterateY = 0;
 		
@@ -165,7 +167,7 @@ class Game{
 		}else if(direction == "up") {
 			iterateY = -1;
 		}else if(direction == "right") {
-			iterateY = 1;
+			iterateX = 1;
 		}
 		
 		let checkX = this.me.head.x + iterateX;
@@ -193,9 +195,9 @@ class Game{
 		if(this.board.searchLeft(checkLoc)){
 			freeDirectionCount++;
 		}
-		console.log(freeDirectionCount);
+		console.log("direction count at (" + checkLoc.x +","+ checkLoc.y + ") is: " + freeDirectionCount);
 		//if theres only one direction to go in, check the end of that direction
-		if(freeDirectionCount == 1){
+		if(freeDirectionCount == 1 || freeDirectionCount == 0 ){
 			while(this.searchDirection(direction, checkLoc)) {
 				checkLoc.x += iterateX;
 				checkLoc.y += iterateY;
@@ -204,26 +206,39 @@ class Game{
 			//if theres no free directions at the end of our route don't go there
 			freeDirectionCount = 0;
 			if(this.board.searchUp(checkLoc)){
-				freeDirectionCount++;
+				if(direction != "down"){
+					freeDirectionCount++;
+					console.log("Up available");
+				}
 			}
 			
 			if(this.board.searchDown(checkLoc)){
+				if(direction != "up"){
 				freeDirectionCount++;
+				console.log("Down available");
+				}
 			}
 			
 			if(this.board.searchRight(checkLoc)){
-				freeDirectionCount++;
+				if(direction != "left"){
+					freeDirectionCount++;
+					console.log("Right available");
+				}
 			}
 			
 			if(this.board.searchLeft(checkLoc)){
-				freeDirectionCount++;
+				if(direction != "right"){
+					freeDirectionCount++;
+					console.log("Left available")
+				}
 			}
-			console.log(freeDirectionCount);
+			console.log("direction count at end of route (" + checkLoc.x +","+ checkLoc.y + ") is: " + freeDirectionCount);
 			if(freeDirectionCount == 0){
-				console.log("HEREHERHEHRHERHEHRHERHERHREHHERHRE");
+				console.log("FALSE");
 				return false
 			}
 		}
+		console.log("returning true count is: " + freeDirectionCount)
 		return true;
     }
 	
