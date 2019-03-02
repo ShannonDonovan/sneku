@@ -18,6 +18,9 @@ class Coordinate {
           y: this.y - other.y
       })
   }
+  length() {
+      return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
 }
 
 module.exports = Coordinate;

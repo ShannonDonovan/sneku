@@ -30,8 +30,8 @@ app.post('/start', (request, response) => {
   // Response data
   const data = {
     color: '#0f52ba',
-		headType: 'bendr',
-		tailType: 'hook'
+	headType: 'bendr',
+	tailType: 'hook'
   }
 
   return response.json(data);

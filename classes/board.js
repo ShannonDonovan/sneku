@@ -2,11 +2,12 @@ let Coordinate = require("./coordinate.js");
 let Snake = require("./snake.js");
 
 class Board {
-    constructor(data) {
+    constructor(data, ourSnake) {
         this.height = data.height;
         this.width = data.width;
         this.food = data.food.map(c => new Coordinate(c));
         this.snakes = data.snakes.map(s => new Snake(s));
+        this.me = ourSnake;
     }
     /* checks if the given coordinate is either a wall or if there is a snake
     * returns true if it safe, false if it is not.*/
@@ -14,9 +15,15 @@ class Board {
         let snakeAtLocation = this.snakes.some(function (s) {
             return s.doesOccupyLocation(coord);
         });
+        let snakeNearLocation = this.snakes.some(function (s) {
+            // If it's our snake, we don't have to worry about head on collisions
+            if (s.head.subtract(this.me.head).length() == 0)
+                return false;
+            return s.head.subtract(coord).length() <= 1 && s.body.length >= this.me.body.length;
+        }.bind(this));
         let checkHeight = this.height > coord.y && coord.y >= 0;
         let checkWidth = this.width > coord.x && coord.x >= 0;
-        return !snakeAtLocation && checkHeight && checkWidth;
+        return !snakeAtLocation && !snakeNearLocation && checkHeight && checkWidth;
     }
 
 
