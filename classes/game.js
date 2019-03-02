@@ -100,7 +100,9 @@ class Game{
      */
 
     turtle2() {
-		if(this.me.health < 50) {
+        if (this.me.body.length < 7)
+            return this.findFood();
+		if(this.me.health < 80) {
 			return this.findFood();
 		}
         let directions = ["down", "left", "up", "right"];
